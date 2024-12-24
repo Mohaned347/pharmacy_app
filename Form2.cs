@@ -29,11 +29,20 @@ namespace main_APP
 
         private void button3_Click(object sender, EventArgs e)
         {
-            SqlConnection con = new SqlConnection("Data Source=LAPTOP-DPIBDA8N;Initial Catalog=pharmacy;Integrated Security=True");
-            SqlCommand cmd = new SqlCommand("select * from employee where [User Name] = '" + textBox1.Text + "' and Password = '" + textBox2.Text + "'", con);
+            using (SqlConnection con = new SqlConnection("Data Source=LAPTOP-DPIBDA8N;Initial Catalog=pharmacy;Integrated Security=True"))
+            {
+                using (SqlCommand cmd = new SqlCommand("INSERT INTO Medicine (Name, Quantity, Price) VALUES (@Name, @Quantity, @Price)", con))
+                {
+                    // Add parameters to avoid SQL injection
+                    cmd.Parameters.AddWithValue("@Name", textBox1.Text);
+                    cmd.Parameters.AddWithValue("@Quantity", textBox3.Text);
+                    cmd.Parameters.AddWithValue("@Price", textBox2.Text);
 
-            con.Open();
-            SqlDataReader dr = cmd.ExecuteReader();
+                    // Execute the command
+                    con.Open();  // Open the connection
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
     }
 }
