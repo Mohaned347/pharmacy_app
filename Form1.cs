@@ -21,6 +21,7 @@ namespace main_APP
             Form2 form2 = new Form2();
             form2.ShowDialog();
             this.Close();
+        }
 
     }
 }
