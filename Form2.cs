@@ -21,7 +21,8 @@ namespace main_APP
         {
             Form1 form1 = new Form1();
             form1.ShowDialog();
-            this.Close();
+            Form2 form2 = new Form2();
+            form2.Hide();
         }
     }
 }
