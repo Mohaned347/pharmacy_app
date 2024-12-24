@@ -35,8 +35,8 @@ namespace main_APP
             SqlDataReader dr = cmd.ExecuteReader();
             if (dr.Read())
             {
-                Form1 form1 = new Form1();
-                form1.Show();
+                Form3 form3 = new Form3();
+                form3.Show();
                 this.Hide();
             }
             else
