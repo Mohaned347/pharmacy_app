@@ -22,6 +22,5 @@ namespace main_APP
             form2.ShowDialog();
             this.Close();
         }
-
     }
 }
