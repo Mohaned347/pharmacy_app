@@ -29,20 +29,35 @@ namespace main_APP
 
         private void button3_Click(object sender, EventArgs e)
         {
-            using (SqlConnection con = new SqlConnection("Data Source=LAPTOP-DPIBDA8N;Initial Catalog=pharmacy;Integrated Security=True"))
+            SqlConnection con = new SqlConnection("Data Source=LAPTOP-DPIBDA8N;Initial Catalog=pharmacy;Integrated Security=True");
+            SqlCommand cmd = new SqlCommand("select * from Medicine  where [Name] = '" + textBox1.Text + "'", con);
+
+            con.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            if (dr.Read())
             {
-                using (SqlCommand cmd = new SqlCommand("INSERT INTO Medicine (Name, Quantity, Price) VALUES (@Name, @Quantity, @Price)", con))
+                using (SqlCommand cmd2 = new SqlCommand("UPDATE Medicine SET Quantity = @Quantity, Price = @Price WHERE Name = @textBox1.Text", con))
                 {
-                    // Add parameters to avoid SQL injection
+                    cmd.Parameters.AddWithValue("@Quantity", "textBox3.Text");
+                    cmd.Parameters.AddWithValue("@Price", "Price");
+
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            else
+            {
+                using (SqlCommand cmd1 = new SqlCommand("INSERT INTO Medicine (Name, Quantity, Price) VALUES (@Name, @Quantity, @Price)", con))
+                {
                     cmd.Parameters.AddWithValue("@Name", textBox1.Text);
                     cmd.Parameters.AddWithValue("@Quantity", textBox3.Text);
                     cmd.Parameters.AddWithValue("@Price", textBox2.Text);
 
-                    // Execute the command
-                    con.Open();  // Open the connection
+                    con.Open();
                     cmd.ExecuteNonQuery();
                 }
             }
+            con.Close();
         }
     }
 }
